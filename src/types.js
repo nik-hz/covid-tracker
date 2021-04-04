@@ -1,0 +1,1 @@
+export const COUNTRY_DATA = 'COUNTRY_DATA'
