@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { fetchCountry } from '../actions'
+import { fetchCountry, fetchAllCountries } from '../actions'
 
-const App = ({ fetchCountry }) => {
+const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
     // set up some local state to manage the inputs
     const [formData, setFormData] = useState({
         country: '',
         province: '',
     })
+
+    useEffect(() => {
+        fetchAllCountries()
+    }, [])
 
     const onSubmit = (e) => {
         console.log('submitted the form and prevented the default action')
@@ -41,12 +45,56 @@ const App = ({ fetchCountry }) => {
                 <p></p>
                 <button type="submit">Search</button>
             </form>
+            <div>
+                {allCountriesCovidStats['0']
+                    ? allCountriesCovidStats['0'].country
+                    : 'loading'}
+            </div>
+            <p></p>
+            <div>
+                {allCountriesCovidStats['1']
+                    ? 'data for multiple provinces should be added'
+                    : 'loading'}
+            </div>
+            <p></p>
+            <div>
+                {allCountriesCovidStats['0']
+                    ? (() => {
+                          // this is only for one province, so come back to this later
+                          return Object.keys(
+                              allCountriesCovidStats['0'].timeline.cases
+                          ).map((date, index) => {
+                              // console.log(
+                              //     allCountriesCovidStats['0'].timeline.cases[
+                              //         date
+                              //     ]
+                              // )
+
+                              // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
+
+                              return (
+                                  <div>
+                                      {date}:{' '}
+                                      {
+                                          allCountriesCovidStats['0'].timeline
+                                              .cases[date]
+                                      }
+                                  </div>
+                              )
+                          })
+                      })()
+                    : 'loading'}
+            </div>
         </div>
     )
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        allCountriesCovidStats: state.allCountriesCovidStats,
+    }
 }
 
-export default connect(mapStateToProps, { fetchCountry })(App)
+export default connect(mapStateToProps, { fetchCountry, fetchAllCountries })(
+    App
+)

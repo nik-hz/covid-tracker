@@ -1,1 +1,2 @@
 export const COUNTRY_DATA = 'COUNTRY_DATA'
+export const ALL_COUNTRY_DATA = 'ALL_COUNTRY_DATA'
