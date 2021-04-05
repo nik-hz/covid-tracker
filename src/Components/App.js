@@ -31,6 +31,36 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
+
+    const countryCovidStats = () => {
+        // this is only for one province, so come back to this later
+        return Object.keys(allCountriesCovidStats).map((province, index) => {
+            // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
+
+            return Object.keys(province).map((p, i) => {
+                console.log(p)
+                return p
+            })
+        })
+    }
+
+    //   const countryCovidStats = () => {
+    //     // this is only for one province, so come back to this later
+    //     return Object.keys(allCountriesCovidStats['0'].timeline.cases).map(
+    //         (date, index) => {
+
+    //             // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
+
+    //             return (
+    //                 <div>
+    //                     {date}:{' '}
+    //                     {allCountriesCovidStats['0'].timeline.cases[date]}
+    //                 </div>
+    //             )
+    //         }
+    //     )
+    // }
+
     return (
         <div>
             <div>Covid Data getter</div>
@@ -54,36 +84,11 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
             <div>
                 {allCountriesCovidStats['1']
                     ? 'data for multiple provinces should be added'
-                    : 'loading'}
+                    : 'no provincial data'}
             </div>
             <p></p>
             <div>
-                {allCountriesCovidStats['0']
-                    ? (() => {
-                          // this is only for one province, so come back to this later
-                          return Object.keys(
-                              allCountriesCovidStats['0'].timeline.cases
-                          ).map((date, index) => {
-                              // console.log(
-                              //     allCountriesCovidStats['0'].timeline.cases[
-                              //         date
-                              //     ]
-                              // )
-
-                              // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
-
-                              return (
-                                  <div>
-                                      {date}:{' '}
-                                      {
-                                          allCountriesCovidStats['0'].timeline
-                                              .cases[date]
-                                      }
-                                  </div>
-                              )
-                          })
-                      })()
-                    : 'loading'}
+                {allCountriesCovidStats['0'] ? countryCovidStats() : 'loading'}
             </div>
         </div>
     )

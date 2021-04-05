@@ -9,6 +9,25 @@ export const fetchCountry = (countryName, days) => async (dispatch) => {
         return obj.country === countryName
     })
 
+    console.log(countryData)
+
+    const ExtractedData = Object.keys(countryData).map((province, index) => {
+        return [province]
+    })
+
+    // const countryCovidStats = () => {
+
+    //     // this is only for one province, so come back to this later
+    //     return Object.keys(allCountriesCovidStats).map((province, index) => {
+    //         // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
+
+    //         return Object.keys(province).map((p, i) => {
+    //             console.log(p)
+    //             return p
+    //         })
+    //     })
+    // }
+
     // dispatch all data from the country
     dispatch({ type: COUNTRY_DATA, payload: countryData })
 }
