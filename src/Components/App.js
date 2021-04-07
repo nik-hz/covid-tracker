@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { fetchCountry, fetchAllCountries } from '../actions'
+import { fetchCountry, fetchGlobal } from '../actions'
 
-const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
+const App = ({
+    fetchCountry,
+    fetchGlobal,
+    allCountriesCovidStats,
+    countryCovidStats,
+}) => {
     // set up some local state to manage the inputs
     const [formData, setFormData] = useState({
         country: '',
@@ -12,12 +17,10 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
     })
 
     useEffect(() => {
-        fetchAllCountries()
+        fetchGlobal()
     }, [])
 
     const onSubmit = (e) => {
-        console.log('submitted the form and prevented the default action')
-        console.log(formData)
         e.preventDefault()
         fetchCountry(formData.country)
         // call an action with the country name from the form
@@ -32,34 +35,21 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const countryCovidStats = () => {
-        // this is only for one province, so come back to this later
-        return Object.keys(allCountriesCovidStats).map((province, index) => {
-            // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
-
-            return Object.keys(province).map((p, i) => {
-                console.log(p)
-                return p
-            })
+    const renderCountryCovidStats = () => {
+        return Object.keys(countryCovidStats.timeline.cases).map((date) => {
+            return (
+                <div>
+                    {date}: {countryCovidStats.timeline.cases[date]} cases
+                    <br />
+                    {date}: {countryCovidStats.timeline.deaths[date]} deaths
+                    <br />
+                    {date}: {countryCovidStats.timeline.recovered[date]}{' '}
+                    recovered
+                    <p></p>
+                </div>
+            )
         })
     }
-
-    //   const countryCovidStats = () => {
-    //     // this is only for one province, so come back to this later
-    //     return Object.keys(allCountriesCovidStats['0'].timeline.cases).map(
-    //         (date, index) => {
-
-    //             // since date is stored as a string with numbers, we need to use a brackjet notation to pop it our
-
-    //             return (
-    //                 <div>
-    //                     {date}:{' '}
-    //                     {allCountriesCovidStats['0'].timeline.cases[date]}
-    //                 </div>
-    //             )
-    //         }
-    //     )
-    // }
 
     return (
         <div>
@@ -75,20 +65,13 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
                 <p></p>
                 <button type="submit">Search</button>
             </form>
+            <p></p>
             <div>
-                {allCountriesCovidStats['0']
-                    ? allCountriesCovidStats['0'].country
-                    : 'loading'}
+                {countryCovidStats ? countryCovidStats.country : 'loading'}
             </div>
             <p></p>
             <div>
-                {allCountriesCovidStats['1']
-                    ? 'data for multiple provinces should be added'
-                    : 'no provincial data'}
-            </div>
-            <p></p>
-            <div>
-                {allCountriesCovidStats['0'] ? countryCovidStats() : 'loading'}
+                {countryCovidStats ? renderCountryCovidStats() : 'loading'}
             </div>
         </div>
     )
@@ -97,9 +80,8 @@ const App = ({ fetchCountry, fetchAllCountries, allCountriesCovidStats }) => {
 const mapStateToProps = (state) => {
     return {
         allCountriesCovidStats: state.allCountriesCovidStats,
+        countryCovidStats: state.countryCovidStats,
     }
 }
 
-export default connect(mapStateToProps, { fetchCountry, fetchAllCountries })(
-    App
-)
+export default connect(mapStateToProps, { fetchCountry, fetchGlobal })(App)
