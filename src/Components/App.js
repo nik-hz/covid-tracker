@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 
 import { fetchCountry, fetchGlobal } from '../actions'
 
+import '../index.css'
+
 const App = ({
     fetchCountry,
     fetchGlobal,
@@ -36,42 +38,68 @@ const App = ({
     }
 
     const renderCountryCovidStats = () => {
-        return Object.keys(countryCovidStats.timeline.cases).map((date) => {
+        return Object.keys(countryCovidStats.timeline.cases).map((date, i) => {
             return (
-                <div>
-                    {date}: {countryCovidStats.timeline.cases[date]} cases
-                    <br />
-                    {date}: {countryCovidStats.timeline.deaths[date]} deaths
-                    <br />
-                    {date}: {countryCovidStats.timeline.recovered[date]}{' '}
-                    recovered
-                    <p></p>
+                <div key={i} className="card">
+                    <p>{date}</p>
+                    <p>{countryCovidStats.timeline.cases[date]} cases</p>
+                    <p>{countryCovidStats.timeline.deaths[date]} deaths</p>{' '}
+                    <p>
+                        {countryCovidStats.timeline.recovered[date]} recovered
+                    </p>
+                </div>
+            )
+        })
+    }
+
+    const renderAllCountriesCovidStats = () => {
+        console.log(allCountriesCovidStats)
+        return Object.keys(allCountriesCovidStats.cases).map((date, i) => {
+            return (
+                <div key={i} className="card">
+                    <p>{date}</p>
+                    <p>{allCountriesCovidStats.cases[date]} cases</p>
+                    <p>{allCountriesCovidStats.deaths[date]} deaths</p>{' '}
+                    <p>{allCountriesCovidStats.recovered[date]} recovered</p>
                 </div>
             )
         })
     }
 
     return (
-        <div>
-            <div>Covid Data getter</div>
-            <p></p>
-            <form action="" onSubmit={(e) => onSubmit(e)}>
+        <div className="app">
+            <div className="title item">Covid Tracker</div>
+
+            <div className="global-data">
+                {allCountriesCovidStats.cases
+                    ? renderAllCountriesCovidStats()
+                    : 'fetching global data'}
+            </div>
+
+            <form action="" onSubmit={(e) => onSubmit(e)} className="form item">
                 <input
                     type="text"
                     name="country"
                     placeholder="country"
+                    className="input item"
                     onChange={(e) => onChange(e)}
                 />
-                <p></p>
-                <button type="submit">Search</button>
+
+                <button className="button item" type="submit">
+                    Search
+                </button>
             </form>
-            <p></p>
-            <div>
-                {countryCovidStats ? countryCovidStats.country : 'loading'}
+
+            <div className="">
+                {countryCovidStats
+                    ? countryCovidStats.country
+                    : 'Global Covid Stats'}
             </div>
-            <p></p>
-            <div>
-                {countryCovidStats ? renderCountryCovidStats() : 'loading'}
+
+            <div className="">
+                {countryCovidStats.timeline
+                    ? renderCountryCovidStats()
+                    : 'Enter a country for localized covid data'}
             </div>
         </div>
     )

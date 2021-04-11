@@ -4,7 +4,7 @@ import { COUNTRY_DATA, ALL_COUNTRY_DATA } from '../types'
 
 export const fetchCountry = (countryName, days) => async (dispatch) => {
     const countryData = await axios.get(
-        `http://disease.sh/v3/covid-19/historical/${countryName}?lastdays=7`
+        `http://disease.sh/v3/covid-19/historical/${countryName}?lastdays=5`
     )
 
     console.log(countryData)
@@ -16,7 +16,7 @@ export const fetchCountry = (countryName, days) => async (dispatch) => {
 export const fetchGlobal = () => async (dispatch) => {
     const allData = await axios.get(
         // 'http://disease.sh/v3/covid-19/historical/all'
-        'https://disease.sh/v3/covid-19/historical/all?lastdays=7'
+        'https://disease.sh/v3/covid-19/historical/all?lastdays=2'
     )
 
     // dispatch all data from the country

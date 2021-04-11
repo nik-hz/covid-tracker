@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+
+body {
+    font-family: 'montseratt', sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url('./assets/pexels-thirdman-5862311.jpg');
+    background-size: cover;
+    background-position: bottom;
+}
+
+.input {
+    width: 80vw;
+    padding: 3%;
+
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+
+    border-radius: 10px 10px 10px 10px;
+
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    width: 40vw;
+
+    padding: 2%;
+
+    /* appearance: none; */
+    background: none;
+    border: none;
+    outline: none;
+
+    border-radius: 10px 10px 10px 10px;
+
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.item {
+    margin-top: 2.5%;
+    margin-bottom: 5%;
+}
+
+.card {
+    display: block;
+    padding: 2%;
+
+    margin: 0% 0% 2.5% 2.5%;
+
+    /* margin-top: 10px; */
+
+    border-radius: 10px 10px 10px 10px;
+
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.global-data {
+    display: flex;
+}
