@@ -90,7 +90,7 @@ const App = ({
                 </button>
             </form>
 
-            <div className="">
+            <div className="title">
                 {countryCovidStats
                     ? countryCovidStats.country
                     : 'Global Covid Stats'}
